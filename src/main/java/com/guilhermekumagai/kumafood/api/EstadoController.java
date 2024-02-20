@@ -51,17 +51,19 @@ public class EstadoController {
 	
 	@PutMapping("/{estadoId}")
 	public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado){
-		
+		try {
 		Estado estadoAtual = cadastroEstado.buscar(estadoId);
 		
-		if(estadoAtual != null) {
+		
 			BeanUtils.copyProperties(estado, estadoAtual, "id");
 			
 			estadoAtual = cadastroEstado.salvar(estadoAtual);
 			
 			return ResponseEntity.ok(estadoAtual);
-		}
+		}catch (EntidadeNaoEncontradaException e) {
 		return ResponseEntity.notFound().build();
+		}
+		
 
 	}
 	

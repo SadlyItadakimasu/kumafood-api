@@ -29,7 +29,7 @@ public class Restaurante {
 	private BigDecimal taxaFrete;
 
 	@ManyToOne
-	@JoinColumn(nullable=false)
+	@JoinColumn(name = "cozinha_id", referencedColumnName = "id", nullable = false)
 	private Cozinha cozinha;
 	
 }
