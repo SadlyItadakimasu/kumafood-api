@@ -1,6 +1,7 @@
 package com.guilhermekumagai.kumafood.api;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,6 +39,12 @@ public class RestauranteController {
 	@GetMapping
 	public List<Restaurante> listar(){
 		return restauranteRepository.findAll();
+	}
+	
+	@GetMapping("por-nome-e-frete")
+	public List<Restaurante> porNomeFrete(
+			String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal){
+		return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
 	}
 
 	@GetMapping("/{restauranteId}")
