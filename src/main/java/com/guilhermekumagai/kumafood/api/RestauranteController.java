@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,8 @@ import com.guilhermekumagai.kumafood.domain.exception.EntidadeNaoEncontradaExcep
 import com.guilhermekumagai.kumafood.domain.model.Restaurante;
 import com.guilhermekumagai.kumafood.domain.repository.RestauranteRepository;
 import com.guilhermekumagai.kumafood.domain.service.CadastroRestauranteService;
+import com.guilhermekumagai.kumafood.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
+import com.guilhermekumagai.kumafood.infrastructure.repository.spec.RestauranteComNomeIgualSpec;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -120,6 +123,14 @@ public class RestauranteController {
 			ReflectionUtils.setField(field, restauranteDestino, novoValor);
 
 		});
+	}
+	
+	@GetMapping("/com-frete-gratis")
+	public List<Restaurante> restaurantesComFreteGratis(@RequestParam("nome") String nome) {
+		var comFreteGratis = new RestauranteComFreteGratisSpec();
+		var comNomeSemelhante = new RestauranteComNomeIgualSpec(nome);
+		
+		return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
 	}
 	
 }
