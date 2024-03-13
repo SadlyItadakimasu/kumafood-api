@@ -1,5 +1,8 @@
 package com.guilhermekumagai.kumafood.api;
 
+import static com.guilhermekumagai.kumafood.infrastructure.repository.spec.RestauranteSpecs.comFreteGratis;
+import static com.guilhermekumagai.kumafood.infrastructure.repository.spec.RestauranteSpecs.comNomeIgual;
+
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,8 +29,6 @@ import com.guilhermekumagai.kumafood.domain.exception.EntidadeNaoEncontradaExcep
 import com.guilhermekumagai.kumafood.domain.model.Restaurante;
 import com.guilhermekumagai.kumafood.domain.repository.RestauranteRepository;
 import com.guilhermekumagai.kumafood.domain.service.CadastroRestauranteService;
-import com.guilhermekumagai.kumafood.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
-import com.guilhermekumagai.kumafood.infrastructure.repository.spec.RestauranteComNomeIgualSpec;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -127,10 +128,8 @@ public class RestauranteController {
 	
 	@GetMapping("/com-frete-gratis")
 	public List<Restaurante> restaurantesComFreteGratis(@RequestParam("nome") String nome) {
-		var comFreteGratis = new RestauranteComFreteGratisSpec();
-		var comNomeSemelhante = new RestauranteComNomeIgualSpec(nome);
 		
-		return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+		return restauranteRepository.findAll(comFreteGratis().and(comNomeIgual(nome)));
 	}
 	
 }
