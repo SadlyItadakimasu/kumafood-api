@@ -132,4 +132,9 @@ public class RestauranteController {
 		return restauranteRepository.findAll(comFreteGratis().and(comNomeIgual(nome)));
 	}
 	
+	@GetMapping("/primeiro")
+	public Optional<Restaurante> buscarPrimeiro(){
+		return restauranteRepository.buscarPrimeiro();
+	}
+	
 }
